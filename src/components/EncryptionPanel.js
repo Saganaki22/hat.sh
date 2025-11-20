@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import getConfig from "next/config";
 import { useDropzone } from "react-dropzone";
 import { formatBytes } from "../helpers/formatBytes";
 import KeyPairGeneration from "./KeyPairGeneration";
@@ -219,6 +220,9 @@ export default function EncryptionPanel() {
   const router = useRouter();
 
   const query = router.query;
+
+  const { publicRuntimeConfig } = getConfig();
+  const basePath = publicRuntimeConfig.basePath || '';
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -456,7 +460,7 @@ export default function EncryptionPanel() {
   const kickOffEncryption = async () => {
     if (currFile <= numberOfFiles - 1) {
       file = files[currFile];
-      window.open(`file`, "_self");
+      window.open(`${basePath}/file`, "_self");
       setIsDownloading(true);
 
       if (encryptionMethodState === "publicKey") {
@@ -527,7 +531,7 @@ export default function EncryptionPanel() {
 
   const createShareableLink = async () => {
     let pk = await computePublicKey(PrivateKey);
-    let link = window.location.origin + "/?tab=decryption&publicKey=" + pk;
+    let link = window.location.origin + basePath + "/?tab=decryption&publicKey=" + pk;
     setShareableLink(link);
   };
 
@@ -637,7 +641,7 @@ export default function EncryptionPanel() {
           style={{ color: "#fff", textAlign: "center" }}
         >
           <img
-            src="/assets/images/logo2.png"
+            src={`${basePath}/assets/images/logo2.png`}
             width="100"
             height="100"
             alt="hat.sh logo"
