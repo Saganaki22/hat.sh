@@ -1,8 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  trailingSlash: true,
-  basePath: '/hat.sh',
-  assetPrefix: '/hat.sh/',
+  trailingSlash: false,
   images: {
     unoptimized: true,
   },
