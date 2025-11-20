@@ -33,14 +33,26 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Fix GitHub Pages routing and assets
+      - name: Fix GitHub Pages SPA routing
         run: |
-          cp ./out/index.html ./out/404.html
-          touch ./out/.nojekyll
-          # Copy public assets to root level for 404 fix
-          if [ -d "./out/hat.sh" ]; then
-            cp -r ./out/hat.sh/* ./out/ 2>/dev/null || true
-          fi
+          cd ./out
+          # Create 404.html that redirects to handle client-side routing
+          cat > 404.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Hat.sh</title>
+              <script>
+                sessionStorage.redirect = location.href;
+              </script>
+              <meta http-equiv="refresh" content="0;URL='/hat.sh/'">
+            </head>
+            <body></body>
+          </html>
+          EOF
+          # Prevent Jekyll processing
+          touch .nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
