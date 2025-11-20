@@ -29,18 +29,15 @@ jobs:
       
       - name: Install dependencies
         run: npm install
-      
+
       - name: Build
+        env:
+          BASE_PATH: /hat.sh
         run: npm run build
-      
-      - name: Fix asset paths and routing
+
+      - name: Prepare for deployment
         run: |
           cd ./out
-          # Fix all image references in HTML and JS files
-          find . -type f \( -name "*.html" -o -name "*.js" \) -exec sed -i 's|src="/logo|src="/hat.sh/assets/images/logo|g' {} +
-          find . -type f \( -name "*.html" -o -name "*.js" \) -exec sed -i 's|href="/favicon.ico"|href="/hat.sh/favicon.ico"|g' {} +
-          # Create 404 fallback
-          cp index.html 404.html
           touch .nojekyll
       
       - name: Setup Pages
