@@ -1,8 +1,12 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
+import getConfig from "next/config";
 import { getTranslations as t } from "../locales";
 import "../public/assets/styles/style.css";
 import { checkTheme } from "../src/config/Theme";
+
+const { publicRuntimeConfig } = getConfig();
+const basePath = publicRuntimeConfig.basePath || '';
 
 //check wether the user prefers/chose dark theme
 checkTheme();
@@ -16,7 +20,7 @@ function MyApp({ Component, pageProps }) {
           {" - "}
           {t("sub_title")}
         </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={`${basePath}/favicon.ico`} />
 
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
