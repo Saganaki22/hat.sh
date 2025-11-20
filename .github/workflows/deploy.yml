@@ -43,13 +43,13 @@ jobs:
           <!DOCTYPE html>
           <html>
             <head>
+              <meta charset="utf-8">
               <meta http-equiv="refresh" content="0;URL='/hat.sh/'">
             </head>
             <body></body>
           </html>
           EOF
-          # Create 404 handler
-          cp deploy/hat.sh/index.html deploy/404.html
+          # Just add .nojekyll, no 404.html
           touch deploy/.nojekyll
       
       - name: Setup Pages
