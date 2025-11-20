@@ -33,6 +33,15 @@ jobs:
       - name: Build
         run: npm run build
       
+      - name: Fix GitHub Pages routing and assets
+        run: |
+          cp ./out/index.html ./out/404.html
+          touch ./out/.nojekyll
+          # Copy public assets to root level for 404 fix
+          if [ -d "./out/hat.sh" ]; then
+            cp -r ./out/hat.sh/* ./out/ 2>/dev/null || true
+          fi
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
