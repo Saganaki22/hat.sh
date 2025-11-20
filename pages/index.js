@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import getConfig from "next/config";
 import MainContainer from "../src/views/MainContainer";
 import LimitedContainer from "../src/views/LimitedContainer";
 import { ThemeProvider } from "@material-ui/styles";
@@ -27,8 +28,10 @@ const Home = () => {
 
     //register service worker
     if ("serviceWorker" in navigator) {
+      const { publicRuntimeConfig } = getConfig();
+      const basePath = publicRuntimeConfig.basePath || '';
       navigator.serviceWorker
-        .register("service-worker.js")
+        .register(`${basePath}/service-worker.js`)
         .then((reg) => {
           reg.update();
           setSwReg(true);
