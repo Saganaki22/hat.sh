@@ -33,8 +33,10 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Add nojekyll
-        run: touch ./out/.nojekyll
+      - name: Fix SPA routing
+        run: |
+          cp ./out/index.html ./out/404.html
+          touch ./out/.nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
