@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import getConfig from "next/config";
 import { useDropzone } from "react-dropzone";
 import { formatBytes } from "../helpers/formatBytes";
 import { formatName } from "../helpers/formatName";
@@ -210,6 +211,9 @@ export default function DecryptionPanel() {
   const router = useRouter();
 
   const query = router.query;
+
+  const { publicRuntimeConfig } = getConfig();
+  const basePath = publicRuntimeConfig.basePath || '';
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -540,7 +544,7 @@ export default function DecryptionPanel() {
   const kickOffDecryption = async (e) => {
     if (currFile <= numberOfFiles - 1) {
       file = files[currFile];
-      window.open(`file`, "_self");
+      window.open(`${basePath}/file`, "_self");
       setIsDownloading(true);
 
       if (decryptionMethodState === "secretKey") {
@@ -813,7 +817,7 @@ export default function DecryptionPanel() {
           style={{ color: "#fff", textAlign: "center" }}
         >
           <img
-            src="/assets/images/logo2.png"
+            src={`${basePath}/assets/images/logo2.png`}
             width="100"
             height="100"
             alt="hat.sh logo"
