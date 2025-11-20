@@ -1,6 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import getConfig from "next/config";
 import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
+
+const { publicRuntimeConfig } = getConfig();
+const basePath = publicRuntimeConfig.basePath || '';
 
 const useStyles = makeStyles((theme) => ({
   backDrop: {
@@ -60,7 +64,7 @@ const LoadingCom = (props) => {
         <div className={classes.circle}></div>
         <img
           className={classes.loadingImg}
-          src="/assets/images/logo.png"
+          src={`${basePath}/assets/images/logo.png`}
           alt="Loading..."
         />
 
