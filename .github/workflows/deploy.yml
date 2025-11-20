@@ -33,26 +33,24 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Fix GitHub Pages SPA routing
+      - name: Prepare for GitHub Pages
         run: |
-          cd ./out
-          # Create 404.html that redirects to handle client-side routing
-          cat > 404.html << 'EOF'
+          # Create the hat.sh directory structure
+          mkdir -p deploy/hat.sh
+          cp -r ./out/* deploy/hat.sh/
+          # Create root index that redirects to /hat.sh/
+          cat > deploy/index.html << 'EOF'
           <!DOCTYPE html>
           <html>
             <head>
-              <meta charset="utf-8">
-              <title>Hat.sh</title>
-              <script>
-                sessionStorage.redirect = location.href;
-              </script>
               <meta http-equiv="refresh" content="0;URL='/hat.sh/'">
             </head>
             <body></body>
           </html>
           EOF
-          # Prevent Jekyll processing
-          touch .nojekyll
+          # Create 404 handler
+          cp deploy/hat.sh/index.html deploy/404.html
+          touch deploy/.nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -60,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './out'
+          path: './deploy'
       
   deploy:
     environment:
