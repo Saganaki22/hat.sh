@@ -1,4 +1,6 @@
-const APP_URL = self.location.origin + "/file";
+// __BASE_PATH__ will be replaced at build time
+const BASE_PATH = "__BASE_PATH__";
+const APP_URL = self.location.origin + BASE_PATH + "/file";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const sigCodes = {
