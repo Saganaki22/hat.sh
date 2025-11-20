@@ -33,10 +33,15 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Fix SPA routing
+      - name: Fix asset paths and routing
         run: |
-          cp ./out/index.html ./out/404.html
-          touch ./out/.nojekyll
+          cd ./out
+          # Fix all image references in HTML and JS files
+          find . -type f \( -name "*.html" -o -name "*.js" \) -exec sed -i 's|src="/logo|src="/hat.sh/assets/images/logo|g' {} +
+          find . -type f \( -name "*.html" -o -name "*.js" \) -exec sed -i 's|href="/favicon.ico"|href="/hat.sh/favicon.ico"|g' {} +
+          # Create 404 fallback
+          cp index.html 404.html
+          touch .nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
